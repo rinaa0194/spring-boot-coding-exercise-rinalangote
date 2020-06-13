@@ -11,6 +11,12 @@ import com.telstra.codechallenge.users.Users.Items;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * SpringBootUsersController
+ * 
+ * @author Rina
+ *
+ */
 @Slf4j
 @RestController
 public class SpringBootUsersController {

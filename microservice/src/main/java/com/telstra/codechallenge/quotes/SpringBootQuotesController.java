@@ -34,9 +34,5 @@ public class SpringBootQuotesController {
      return quote;
   }
   
-	/*
-	 * @GetMapping("/users/{limit}") public List<Items> users(@PathVariable String
-	 * limit) { Users users=springBootQuotesService.getUsers(limit); return
-	 * users.getItems(); }
-	 */
+	
 }

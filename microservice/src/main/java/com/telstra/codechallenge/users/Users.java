@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+/**
+ * Users
+ * @author Rina
+ *
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class Users {
