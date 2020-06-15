@@ -1,5 +1,8 @@
 package com.telstra.codechallenge.users;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,8 +43,9 @@ public class SpringBootUsersService {
 		Users user = restTemplate.getForObject(
 				usersBaseUrl + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + limit, Users.class);
 
-		if (CollectionUtils.isEmpty(user.getItems()))
+		if (user==null||(user!=null && CollectionUtils.isEmpty(user.getItems())))
 			throw new UserNotFoundException("with number of accounts:" + limit);
+			
 		return user;
 	}
 
