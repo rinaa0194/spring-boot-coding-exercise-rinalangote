@@ -32,7 +32,7 @@ public class SpringBootUsersService {
 	 * @throws Exception
 	 */
 	public Users getUsers(Integer limit) {
-		log.info("Inside @serviceMethod getUsers @limit:" + limit);
+		log.info("Inside @serviceMethod getUsers @param limit:" + limit);
 
 		if (limit == 0)
 			throw new UserMethodArgumentNotValidException("Number of accounts to return should be greater than zero");
