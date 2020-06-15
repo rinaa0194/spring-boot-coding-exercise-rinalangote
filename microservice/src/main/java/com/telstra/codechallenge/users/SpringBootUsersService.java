@@ -1,8 +1,5 @@
 package com.telstra.codechallenge.users;
 
-import java.util.Objects;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,8 +37,14 @@ public class SpringBootUsersService {
 		if (limit == 0)
 			throw new UserMethodArgumentNotValidException("Number of accounts to return should be greater than zero");
 
-		Users user = restTemplate.getForObject(
-				usersBaseUrl + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + limit, Users.class);
+		Users user = null;
+		try {
+			user = restTemplate.getForObject(
+					usersBaseUrl + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + limit, Users.class);
+		} catch (Exception e) {
+			throw new InternalSeverException("Error while accessing Git API call");
+
+		}
 
 		if (user == null || (user != null && CollectionUtils.isEmpty(user.getItems())))
 			throw new UserNotFoundException("Requested number of accounts:" + limit);
