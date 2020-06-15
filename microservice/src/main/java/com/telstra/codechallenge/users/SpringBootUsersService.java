@@ -27,15 +27,15 @@ public class SpringBootUsersService {
 	/**
 	 * @method :getUsers
 	 * @param limit(number of accounts)
-	 * @return users(Returns a oldest user accounts with zero followers. Taken from
-	 *         https://api.github.com/search/users.)
-	 * @throws Exception 
+	 * @return users(Returns a oldest user accounts with zero followers. 
+	 * Taken from https://api.github.com/search/users.)
+	 * @throws Exception
 	 */
 	public Users getUsers(Integer limit) {
 		log.info("Inside @serviceMethod getUsers @limit:" + limit);
 
 		if (limit == 0)
-			throw new UserMethodArgumentNotValidException(" number of accounts to return should be greater than zero");
+			throw new UserMethodArgumentNotValidException("Number of accounts to return should be greater than zero");
 
 		Users user = restTemplate.getForObject(
 				usersBaseUrl + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + limit, Users.class);
