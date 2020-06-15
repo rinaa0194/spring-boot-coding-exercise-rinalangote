@@ -17,11 +17,10 @@ public class Users {
 
 	@JsonProperty("items")
 	private List<Items> items;
-
-	@Data
+	
 	@JsonIgnoreProperties(ignoreUnknown = true)
+	@Data
 	public static class Items {
-
 		private Long id;
 		private String login;
 		private String html_url;

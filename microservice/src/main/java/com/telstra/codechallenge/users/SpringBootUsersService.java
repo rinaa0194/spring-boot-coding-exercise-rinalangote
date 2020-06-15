@@ -3,12 +3,13 @@ package com.telstra.codechallenge.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * SpringBootUsersService
+ * @Class: SpringBootUsersService
  * 
  * @author Rina
  *
@@ -24,16 +25,24 @@ public class SpringBootUsersService {
 	private RestTemplate restTemplate;
 
 	/**
-	 * @method :getUsers Returns a random spring boot oldest user
-	 * accounts with zero followers. Taken from https://api.github.com/search/users.
-	 * @param limit(number of accounts) 
-	 * @return users
+	 * @method :getUsers
+	 * @param limit(number of accounts)
+	 * @return users(Returns a oldest user accounts with zero followers. Taken from
+	 *         https://api.github.com/search/users.)
+	 * @throws Exception 
 	 */
-	public Users getUsers(String limit) {
-		log.info("Inside getUsers @limit:" + limit);
+	public Users getUsers(Integer limit) {
+		log.info("Inside @serviceMethod getUsers @limit:" + limit);
 
-		return restTemplate.getForObject(
+		if (limit == 0)
+			throw new UserMethodArgumentNotValidException(" number of accounts to return should be greater than zero");
+
+		Users user = restTemplate.getForObject(
 				usersBaseUrl + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + limit, Users.class);
+
+		if (CollectionUtils.isEmpty(user.getItems()))
+			throw new UserNotFoundException("with number of accounts:" + limit);
+		return user;
 	}
 
 }

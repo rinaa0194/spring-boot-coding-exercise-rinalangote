@@ -12,7 +12,7 @@ import com.telstra.codechallenge.users.Users.Items;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * SpringBootUsersController
+ * @Class: SpringBootUsersController
  * 
  * @author Rina
  *
@@ -25,9 +25,8 @@ public class SpringBootUsersController {
 	private SpringBootUsersService springBootUsersService;
 
 	@GetMapping("/users/{limit}")
-	public List<Items> users(@PathVariable String limit) {
+	public List<Items> getUsers(@PathVariable Integer limit) {
 		log.info("Inside users controller");
-		Users users = springBootUsersService.getUsers(limit);
-		return users.getItems();
+		return springBootUsersService.getUsers(limit).getItems();
 	}
 }
