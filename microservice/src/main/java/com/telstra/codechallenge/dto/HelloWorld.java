@@ -1,4 +1,4 @@
-package com.telstra.codechallenge.helloworld;
+package com.telstra.codechallenge.dto;
 
 
 public class HelloWorld {

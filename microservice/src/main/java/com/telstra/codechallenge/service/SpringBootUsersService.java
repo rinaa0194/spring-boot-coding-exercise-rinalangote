@@ -1,10 +1,17 @@
-package com.telstra.codechallenge.users;
+package com.telstra.codechallenge.service;
+
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
+
+import com.telstra.codechallenge.dto.Users;
+import com.telstra.codechallenge.util.InternalSeverException;
+import com.telstra.codechallenge.util.MethodArgumentNotValidException;
+import com.telstra.codechallenge.util.UserNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,19 +41,22 @@ public class SpringBootUsersService {
 	public Users getUsers(Integer limit) {
 		log.info("Inside @serviceMethod getUsers @param limit:" + limit);
 
-		if (limit == 0)
-			throw new UserMethodArgumentNotValidException("Number of accounts to return should be greater than zero");
+		if (limit <= 0)
+			throw new MethodArgumentNotValidException("Number of accounts to return should be greater than zero");
 
 		Users user = null;
 		try {
 			user = restTemplate.getForObject(
 					usersBaseUrl + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + limit, Users.class);
 		} catch (Exception e) {
-			throw new InternalSeverException("Error while accessing Git API call");
+			throw new InternalSeverException("Error while accessing Git API");
 
 		}
 
-		if (user == null || (user != null && CollectionUtils.isEmpty(user.getItems())))
+		if (Objects.isNull(user))
+			throw new UserNotFoundException("Git API response is null or empty:" + limit);
+
+		else if (CollectionUtils.isEmpty(user.getItems()))
 			throw new UserNotFoundException("Requested number of accounts:" + limit);
 
 		return user;

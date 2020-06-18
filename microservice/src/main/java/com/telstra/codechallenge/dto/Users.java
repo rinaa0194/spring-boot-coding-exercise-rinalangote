@@ -1,4 +1,4 @@
-package com.telstra.codechallenge.users;
+package com.telstra.codechallenge.dto;
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class Users {
 	public static class Items {
 		private Long id;
 		private String login;
-		private String html_url;
+		@JsonProperty("html_url")
+		private String htmlUrl;
 	}
 }

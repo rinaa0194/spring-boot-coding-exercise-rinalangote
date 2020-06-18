@@ -1,4 +1,4 @@
-package com.telstra.codechallenge.users;
+package com.telstra.codechallenge.controller;
 
 import java.util.List;
 
@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.telstra.codechallenge.users.Users.Items;
+import com.telstra.codechallenge.dto.Users.Items;
+import com.telstra.codechallenge.service.SpringBootUsersService;
 
 import lombok.extern.slf4j.Slf4j;
 
