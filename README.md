@@ -1,8 +1,7 @@
 # spring-boot-coding-exercise-rinalangote
 
- Find the oldest user accounts with zero followers 
+The Exercises Find the oldest user accounts with zero followers 
  
- added package com.telstra.codechallenge.users
+ added SpringBootUsersController to package com.telstra.codechallenge.controller
  
- SpringBootUsersController--->controller
  
