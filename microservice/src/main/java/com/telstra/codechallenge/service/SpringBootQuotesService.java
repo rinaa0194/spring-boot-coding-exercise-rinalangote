@@ -1,5 +1,6 @@
 package com.telstra.codechallenge.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,12 +12,9 @@ public class SpringBootQuotesService {
 
 	@Value("${quotes.base.url}")
 	private String quotesBaseUrl;
-
+	
+	@Autowired
 	private RestTemplate restTemplate;
-
-	public SpringBootQuotesService(RestTemplate restTemplate) {
-		this.restTemplate = restTemplate;
-	}
 
 	/**
 	 * Returns an array of spring boot quotes. Taken from

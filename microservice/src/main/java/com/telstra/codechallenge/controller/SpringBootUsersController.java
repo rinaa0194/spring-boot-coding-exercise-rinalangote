@@ -27,7 +27,7 @@ public class SpringBootUsersController {
 
 	@GetMapping("/users/{limit}")
 	public List<Items> getUsers(@PathVariable Integer limit) {
-		log.info("Inside users controller");
+		log.info("Inside users controller @param limit:"+limit);
 		return springBootUsersService.getUsers(limit).getItems();
 	}
 }
