@@ -3,7 +3,7 @@ package com.telstra.codechallenge.service;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
@@ -23,10 +23,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
-public class SpringBootUsersService {
+public class SpringBootUsersService{
 
-	@Value("${users.base.url}")
-	private String usersBaseUrl;
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private RestTemplate restTemplate;
@@ -38,6 +38,7 @@ public class SpringBootUsersService {
 	 * Taken from https://api.github.com/search/users.)
 	 * @throws Exception
 	 */
+	
 	public Users getUsers(Integer limit) {
 		log.info("Inside @serviceMethod getUsers @param limit:" + limit);
 
@@ -46,8 +47,8 @@ public class SpringBootUsersService {
 
 		Users user = null;
 		try {
-			user = restTemplate.getForObject(
-					usersBaseUrl + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + limit, Users.class);
+			user = restTemplate.getForObject(env.getProperty("users.base.url")
+					+ "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + limit, Users.class);
 		} catch (Exception e) {
 			throw new InternalSeverException("Error while accessing Git API");
 
