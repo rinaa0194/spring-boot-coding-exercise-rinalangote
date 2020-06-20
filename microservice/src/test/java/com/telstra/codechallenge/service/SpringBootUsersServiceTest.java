@@ -35,10 +35,10 @@ public class SpringBootUsersServiceTest {
 	private Environment env;
 
 	@Test
-	public void givenMockingIsDoneByMockito_whenGetIsCalled_shouldReturnMockedObject() {
+	public void testgetUsersGitApi() {
 		Users userObj = new Users();
-		List<Users.Items> list = Arrays.asList(new Users.Items(++idCounter, "abc", "url"),
-				new Users.Items(++idCounter, "pqr", "url"));
+		List<Users.Items> list = Arrays.asList(new Users.Items(++idCounter, "Jon", "url"),
+				new Users.Items(++idCounter, "Rina", "url"));
 		userObj.setItems(list);
 		when(env.getProperty("users.base.url")).thenReturn("https://api.github.com");
 		when(restTemplate.getForObject(
@@ -52,7 +52,7 @@ public class SpringBootUsersServiceTest {
 	}
 
 	@Test(expected = InternalSeverException.class)
-	public void test_InternalServerexceptionInClass() {
+	public void testgetUsersGitApiInternalServerexception() {
 		Users userObj = new Users();
 		List<Users.Items> list = Arrays.asList(new Users.Items(++idCounter, "abc", "url"),
 				new Users.Items(++idCounter, "pqr", "url"));
@@ -63,46 +63,39 @@ public class SpringBootUsersServiceTest {
 				env.getProperty("users.base.url") + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + 2,
 				Users.class)).thenThrow(new InternalSeverException("Error while accessing Git API"));
 
-		Users user = service.getUsers(2);
+		service.getUsers(2);
 	}
 
 	@Test(expected = com.telstra.codechallenge.util.MethodArgumentNotValidException.class)
-	public void test_MethodArgumentNotValidExceptionInClass() {
+	public void testgetUsersMethodArgumentNotValidException() {
 
 		int limit = 0;
-		when(service.getUsers(limit)).thenThrow(new com.telstra.codechallenge.util.MethodArgumentNotValidException(
-				"Number of accounts to return should be greater than zero"));
-
-		Users user = service.getUsers(limit);
+		service.getUsers(limit);
 	}
 
 	@Test(expected = UserNotFoundException.class)
-	public void test_UserNotFoundExceptionInClass() {
+	public void testUserNotFoundExceptionforgetUsersMethodtoCheckemptyObj() {
 		Users userObj = new Users();
-		List listMock = mock(List.class);
-		userObj.setItems(listMock);
+		List<Users.Items> list = Arrays.asList();
+
+		userObj.setItems(list);
 		when(env.getProperty("users.base.url")).thenReturn("https://api.github.com");
 
 		when(restTemplate.getForObject(
 				env.getProperty("users.base.url") + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + 2,
 				Users.class)).thenReturn(userObj);
-		when(service.getUsers(2)).thenThrow(new UserNotFoundException("Requested number of accounts"));
+		service.getUsers(2);
 
-		Users user = service.getUsers(2);
 	}
-
+	
 	@Test(expected = UserNotFoundException.class)
-	public void test_UserNotFoundExceptionInClassforemptyObj() {
-		Users userObj = new Users();
-
-		when(env.getProperty("users.base.url")).thenReturn("https://api.github.com");
-
+	public void testUserNotFoundExceptionforgetUsersMethodtoCheckemptyList() {
+		Users userObj = null;
 		when(restTemplate.getForObject(
 				env.getProperty("users.base.url") + "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + 2,
 				Users.class)).thenReturn(userObj);
-		when(service.getUsers(2)).thenThrow(new UserNotFoundException("Requested number of accounts"));
 
-		Users user = service.getUsers(2);
+		service.getUsers(2);
 	}
 
 }
