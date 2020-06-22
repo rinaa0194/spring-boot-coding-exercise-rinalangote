@@ -51,7 +51,6 @@ public class SpringBootUsersService{
 					+ "/search/users?q=followers:0&sort=joined&order=asc&per_page=" + limit, Users.class);
 		} catch (Exception e) {
 			throw new InternalSeverException("Error while accessing Git API");
-
 		}
 
 		if (Objects.isNull(user))
